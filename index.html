@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#17151b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Between Us — Davin & Lauren</title>
+  <style>
+    :root{
+      --bg:#121015;
+      --panel:#1b1820;
+      --panel2:#24202a;
+      --ink:#f7f3f6;
+      --muted:#bfb6c2;
+      --accent:#d79ab8;
+      --accent2:#a991d6;
+      --good:#9bc9ae;
+      --line:rgba(255,255,255,.09);
+      --shadow:0 18px 60px rgba(0,0,0,.28);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 12% -10%, rgba(215,154,184,.17), transparent 38%),
+        radial-gradient(circle at 95% 10%, rgba(169,145,214,.13), transparent 30%),
+        var(--bg);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    .shell{max-width:760px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) 18px calc(42px + env(safe-area-inset-bottom))}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .mark{
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#17121a;font-weight:900;font-size:20px;box-shadow:var(--shadow)
+    }
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(28px,8vw,44px);line-height:1.02;letter-spacing:-.04em;margin-bottom:10px}
+    h2{font-size:24px;letter-spacing:-.02em}
+    h3{font-size:16px;margin-bottom:8px}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);font-weight:800;margin-bottom:8px}
+    .muted{color:var(--muted)}
+    .small{font-size:13px}
+    .hero{padding:26px 4px 12px}
+    .hero p{font-size:16px;line-height:1.55;max-width:640px}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015)),var(--panel);
+      border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)
+    }
+    .setup{padding:18px;margin:18px 0 22px}
+    .names{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px}
+    input{
+      width:100%;background:#111016;color:var(--ink);border:1px solid var(--line);
+      border-radius:14px;padding:12px 13px;outline:none
+    }
+    input:focus{border-color:rgba(215,154,184,.65);box-shadow:0 0 0 3px rgba(215,154,184,.10)}
+    .segmented{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+    .segmented button,.pill,.secondary,.primary,.ghost{
+      border:0;border-radius:999px;padding:11px 13px;font-weight:800
+    }
+    .segmented button{background:var(--panel2);color:var(--muted);border:1px solid var(--line);font-size:13px}
+    .segmented button.active{color:#17121a;background:linear-gradient(135deg,var(--accent),#e7b3cd)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 2px 14px}
+    .section-head h2{margin-bottom:3px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .scene{
+      text-align:left;padding:18px;min-height:154px;position:relative;overflow:hidden;
+      background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),var(--panel);
+      color:var(--ink);border:1px solid var(--line);border-radius:20px
+    }
+    .scene:after{
+      content:"";position:absolute;width:110px;height:110px;border-radius:50%;right:-42px;bottom:-50px;
+      background:radial-gradient(circle,rgba(215,154,184,.24),transparent 70%)
+    }
+    .scene .icon{font-size:28px;margin-bottom:16px;display:block}
+    .scene strong{font-size:19px;display:block;margin-bottom:5px}
+    .scene span{font-size:13px;color:var(--muted);line-height:1.4;display:block}
+    .surprise{width:100%;margin:14px 0 4px;padding:14px 16px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#17121a;border:0;border-radius:16px;font-weight:900}
+    .view{display:none}
+    .view.active{display:block}
+    .back{background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:9px 12px;font-weight:800}
+    .detail-hero{padding:22px;margin:12px 0}
+    .detail-title{display:flex;gap:14px;align-items:center}
+    .big-icon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:29px;background:var(--panel2)}
+    .detail-title h1{font-size:34px;margin:0 0 5px}
+    .rolebox,.suggestbox,.steps,.afterbox{padding:18px;margin-top:12px}
+    .roleline{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+    .roleline:first-of-type{border-top:0}
+    .person{font-weight:900;font-size:17px}
+    .role{color:var(--accent);font-weight:800}
+    .btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+    .primary{background:linear-gradient(135deg,var(--accent),#e7b3cd);color:#17121a}
+    .secondary{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}
+    .ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+    .suggestion{
+      font-size:18px;line-height:1.5;padding:16px;background:#111016;border-radius:16px;border:1px solid var(--line);margin:10px 0 0
+    }
+    .step{padding:15px 0;border-top:1px solid var(--line)}
+    .step:first-of-type{border-top:0;padding-top:4px}
+    .step p{margin:0;color:#ddd5df;line-height:1.68;font-size:15px}
+    .step ul{margin:8px 0 0 20px;padding:0;color:#ddd5df;line-height:1.6}
+    .safety{padding:14px;border-radius:16px;background:rgba(155,201,174,.08);border:1px solid rgba(155,201,174,.18);color:#d7ecdf;font-size:13px;line-height:1.5;margin-top:12px}
+    .footer-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .footer-actions button{border-radius:16px;padding:14px}
+    .toast{
+      position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(30px);
+      background:#f4edf2;color:#1a151c;padding:11px 16px;border-radius:999px;font-weight:850;opacity:0;pointer-events:none;
+      transition:.25s ease;z-index:50;box-shadow:var(--shadow);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis
+    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    details{margin-top:14px}
+    summary{cursor:pointer;color:var(--muted);font-weight:800}
+
+    .ratingbox{padding:18px;margin-top:12px}
+    .rating-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+    .rating-btn{
+      border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+      border-radius:16px;padding:13px 8px;font-weight:850
+    }
+    .rating-btn.active{background:linear-gradient(135deg,var(--accent),#e7b3cd);color:#17121a;border-color:transparent}
+    .rating-note{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.45}
+    .scene-rating{
+      display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:5px 8px;
+      border-radius:999px;background:rgba(255,255,255,.07);font-size:11px!important;
+      color:#eee6ed!important;font-weight:800;width:max-content
+    }
+
+    .heat-wrap{margin-top:18px}
+    .heat-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+    .heat-levels button{
+      border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+      border-radius:999px;padding:10px 8px;font-weight:850;font-size:12px
+    }
+    .heat-levels button.active{
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      color:#17121a;border-color:transparent
+    }
+    .heat-badge{
+      display:inline-flex;align-items:center;margin-top:9px;padding:5px 8px;
+      border-radius:999px;background:rgba(255,255,255,.07);
+      font-size:11px!important;color:#eee6ed!important;font-weight:800;width:max-content
+    }
+
+    .privacy{padding:14px 4px 0;color:#918794;font-size:12px;line-height:1.5}
+    @media (max-width:560px){
+      .grid{grid-template-columns:1fr}
+      .names{grid-template-columns:1fr}
+      .segmented{grid-template-columns:1fr 1fr}
+      .scene{min-height:132px}
+      .footer-actions{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section id="homeView" class="view active">
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark">♥</div>
+          <div>
+            <div style="font-weight:900">Between Us</div>
+            <div class="small muted">Private sex & date-night cards</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="eyebrow">Tonight is yours</div>
+        <h1>Pick a mood.<br>Let the app guide the rest.</h1>
+        <p class="muted">Choose together, let one person pick, or make it random. Then assign roles, draw a suggestion, and decide whether tonight stays romantic, becomes sexual, or turns into both.</p>
+      </div>
+
+      <section class="card setup">
+        <h3>Your names</h3>
+        <div class="names">
+          <div>
+            <label for="nameA">Me</label>
+            <input id="nameA" value="Davin" maxlength="20" />
+          </div>
+          <div>
+            <label for="nameB">My partner</label>
+            <input id="nameB" value="Lauren" maxlength="20" />
+          </div>
+        </div>
+
+        <h3 style="margin-top:18px">Who chooses tonight?</h3>
+        <div class="segmented" id="chooserSegments">
+          <button data-chooser="together" class="active">Together</button>
+          <button data-chooser="a">Partner 1</button>
+          <button data-chooser="b">Partner 2</button>
+          <button data-chooser="random">Random</button>
+        </div>
+
+        <div class="heat-wrap">
+          <h3>Heat level</h3>
+          <div class="heat-levels" id="heatLevels">
+            <button data-heat="romantic">Romantic</button>
+            <button data-heat="playful">Playful</button>
+            <button data-heat="spicy" class="active">Spicy</button>
+            <button data-heat="raunchy">Raunchy</button>
+          </div>
+          <p id="heatHint" class="small muted" style="margin:9px 2px 0">More direct and sexual, without being graphic.</p>
+        </div>
+
+        <details>
+          <summary>Privacy</summary>
+          <p class="small muted" style="margin-top:10px;margin-bottom:0">Names and ratings stay in this browser. Sharing creates a link containing the selected card and roles; ratings are not included in the shared link and nothing is sent to a private app server.</p>
+        </details>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Choose a card</div>
+          <h2>Date-night deck</h2>
+        </div>
+      </div>
+
+      <div id="sceneGrid" class="grid">
+        <button class="scene" data-id="impact">
+          <span class="icon">✋</span>
+          <strong>Impact</strong>
+          <span>Trust • anticipation • controlled sensation</span>
+        </button>
+        <button class="scene" data-id="heat">
+          <span class="icon">🔥</span>
+          <strong>Heat</strong>
+          <span>Warmth • contrast • anticipation</span>
+        </button>
+        <button class="scene" data-id="bound">
+          <span class="icon">∞</span>
+          <strong>Bound</strong>
+          <span>Trust • surrender • communication</span>
+        </button>
+        <button class="scene" data-id="crave">
+          <span class="icon">♡</span>
+          <strong>Crave</strong>
+          <span>Anticipation • communication • slowing down</span>
+        </button>
+        <button class="scene" data-id="edge">
+          <span class="icon">◐</span>
+          <strong>Edge</strong>
+          <span>Control • anticipation • patience</span>
+        </button>
+        <button class="scene" data-id="taste">
+          <span class="icon">💋</span>
+          <strong>Taste</strong>
+          <span>Kissing • curiosity • rediscovery</span>
+        </button>
+        <button class="scene" data-id="adore">
+          <span class="icon">✦</span>
+          <strong>Adore</strong>
+          <span>Attention • appreciation • receiving</span>
+        </button>
+        <button class="scene" data-id="blindfold">
+          <span class="icon">◉</span>
+          <strong>Blindfold</strong>
+          <span>Anticipation • trust • heightened sensation</span>
+        </button>
+        <button class="scene" data-id="lead">
+          <span class="icon">◆</span>
+          <strong>Take the Lead</strong>
+          <span>Confidence • surrender • being cared for</span>
+        </button>
+        <button class="scene" data-id="requests">
+          <span class="icon">3</span>
+          <strong>Three Requests</strong>
+          <span>Desire • honesty • choosing together</span>
+        </button>
+        <button class="scene" data-id="bodymap">
+          <span class="icon">◎</span>
+          <strong>Body Map</strong>
+          <span>Curiosity • feedback • learning each other</span>
+        </button>
+        <button class="scene" data-id="dealer">
+          <span class="icon">🎴</span>
+          <strong>Dealer's Choice</strong>
+          <span>Random • playful • custom to tonight</span>
+        </button>
+        <button class="scene" data-id="oral">
+          <span class="icon">◌</span>
+          <strong>Oral Night</strong>
+          <span>Attention • communication • receiving</span>
+        </button>
+        <button class="scene" data-id="dirtytalk">
+          <span class="icon">✦</span>
+          <strong>Dirty Talk</strong>
+          <span>Words • confidence • saying what you want</span>
+        </button>
+        <button class="scene" data-id="watchme">
+          <span class="icon">◉</span>
+          <strong>Watch Me</strong>
+          <span>Confidence • learning • showing instead of guessing</span>
+        </button>
+        <button class="scene" data-id="fantasymenu">
+          <span class="icon">☰</span>
+          <strong>Fantasy Menu</strong>
+          <span>Curiosity • overlap • shared ideas</span>
+        </button>
+        <button class="scene" data-id="positions">
+          <span class="icon">↻</span>
+          <strong>Position Roulette</strong>
+          <span>Variety • choice • no overthinking</span>
+        </button>
+        <button class="scene" data-id="domsub">
+          <span class="icon">◆</span>
+          <strong>Dom / Sub Lite</strong>
+          <span>Power • permission • trust</span>
+        </button>
+        <button class="scene" data-id="massage">
+          <span class="icon">👐</span>
+          <strong>The Massage</strong>
+          <span>Slow down • let go • transition naturally</span>
+        </button>
+      </div>
+      <button id="surpriseBtn" class="surprise">✨ Surprise us</button>
+      <div class="privacy">Original guided date-night cards inspired by the format of intimacy-box experiences. They are not reproductions of Arya's proprietary cards.</div>
+    </section>
+
+    <section id="detailView" class="view">
+      <div class="topbar">
+        <button class="back" id="backBtn">← All cards</button>
+        <div class="small muted" id="chooserLabel"></div>
+      </div>
+
+      <section class="card detail-hero">
+        <div class="detail-title">
+          <div id="detailIcon" class="big-icon"></div>
+          <div>
+            <div class="eyebrow">Tonight's card</div>
+            <h1 id="detailName"></h1>
+            <div id="detailTagline" class="muted"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card rolebox">
+        <div class="eyebrow">Roles</div>
+        <h2 style="margin-bottom:10px">Who's doing what?</h2>
+        <div class="roleline">
+          <span id="rolePersonA" class="person">You</span>
+          <span id="roleA" class="role"></span>
+        </div>
+        <div class="roleline">
+          <span id="rolePersonB" class="person">Partner</span>
+          <span id="roleB" class="role"></span>
+        </div>
+        <div class="btnrow">
+          <button id="swapBtn" class="secondary">↔ Swap roles</button>
+          <button id="randomRolesBtn" class="secondary">🎲 Randomize</button>
+        </div>
+      </section>
+
+      <section class="card suggestbox">
+        <div class="eyebrow">Optional prompt</div>
+        <h2 style="margin-bottom:4px">Try this tonight</h2>
+        <div id="suggestionText" class="suggestion"></div>
+        <div class="btnrow">
+          <button id="newSuggestionBtn" class="primary">Give us another suggestion</button>
+        </div>
+      </section>
+
+      <section id="stepsBox" class="card steps"></section>
+
+
+      <section class="card ratingbox">
+        <div class="eyebrow">Afterward</div>
+        <h2 style="margin-bottom:4px">How was this one?</h2>
+        <p class="muted small">Your rating stays saved on this device so you can remember what worked for you two.</p>
+        <div class="rating-buttons">
+          <button class="rating-btn" data-rating="no">👎 Didn't like</button>
+          <button class="rating-btn" data-rating="like">👍 Liked</button>
+          <button class="rating-btn" data-rating="love">❤️ Loved</button>
+        </div>
+        <div id="ratingNote" class="rating-note">No rating yet.</div>
+      </section>
+
+      <section class="card afterbox">
+        <div class="eyebrow">Keep going</div>
+        <h2>What next?</h2>
+        <p class="muted">There's no required finish. Pick what feels right in the moment.</p>
+        <div class="btnrow">
+          <button class="secondary nextSuggestion" data-next="switch">Switch roles</button>
+          <button class="secondary nextSuggestion" data-next="linger">Stay here longer</button>
+          <button class="secondary nextSuggestion" data-next="another">Pick another card</button>
+          <button class="secondary nextSuggestion" data-next="close">Call it a night</button>
+        </div>
+        <div id="nextText" class="suggestion" style="display:none"></div>
+      </section>
+
+      <div class="footer-actions">
+        <button id="shareBtn" class="primary">Share tonight's plan</button>
+        <button id="copyBtn" class="ghost">Copy link</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+<script>
+const scenes = [
+  {
+    id:"impact", icon:"✋", name:"Impact", tagline:"Trust • anticipation • controlled sensation",
+    roles:["Giver","Receiver"],
+    suggestions:[
+      "Start with hands only for a few minutes before introducing any paddle.",
+      "Try three light taps, a long pause, then one slightly firmer tap.",
+      "Let the receiver choose an intensity from 1–5 before each short round.",
+      "Switch who leads halfway through so both of you experience the difference.",
+      "Use a Green / Yellow / Red check-in once the rhythm starts to build."
+    ],
+    safety:"Keep impact on fleshy areas such as the buttocks and upper thighs. Avoid the head, neck, spine, joints, abdomen, kidneys/lower back, and bony areas.",
+    steps:[
+      ["Set the scene","Choose who leads first. Agree on Green, Yellow, and Red and discuss any off-limits areas."],
+      ["Warm up","Begin with gentle touch, rubbing, light taps, and pauses. Let anticipation build before intensity."],
+      ["Introduce impact","Start low and build only when the receiver actively wants more. Play with rhythm and pauses instead of simply hitting harder."],
+      ["Reconnect","Finish with gentle touch, water, and a quick check-in about what each of you liked."]
+    ]
+  },
+  {
+    id:"heat", icon:"🔥", name:"Heat", tagline:"Warmth • contrast • anticipation",
+    roles:["Giver","Receiver"],
+    suggestions:[
+      "Alternate warm hands with a cool massage tool or cool fingertips.",
+      "Have the receiver close their eyes while the giver changes temperature and pressure.",
+      "Use a 1–5 comfort scale and stay comfortably below the receiver's limit.",
+      "Finish the temperature play by transitioning into a slow massage.",
+      "Pause before each new sensation so anticipation becomes part of the experience."
+    ],
+    safety:"Use only body-safe products intended for temperature or massage play. Never substitute an ordinary household candle.",
+    steps:[
+      ["Set the scene","Warm the room, dim the lights, and keep towels nearby."],
+      ["Begin with warmth","Start with hands and slow massage before introducing temperature contrast."],
+      ["Add contrast","Alternate warm, cool, pressure, and stillness. Let the receiver describe what they like."],
+      ["Reconnect","Smooth everything back into comfortable touch or massage."]
+    ]
+  },
+  {
+    id:"bound", icon:"∞", name:"Bound", tagline:"Trust • surrender • communication",
+    roles:["Leader","Receiver"],
+    suggestions:[
+      "Start without restraints: ask the receiver to keep their hands where you place them.",
+      "Let the leader decide when touch starts and stops for five minutes, then switch.",
+      "Use only one restraint point at first rather than making things complicated.",
+      "Give the receiver four simple requests: slower, surprise me, keep going, release me.",
+      "Try a short eyes-closed round before deciding whether to use any restraint."
+    ],
+    safety:"Restraints should never interfere with circulation, breathing, or quick release. Keep safety shears or an easy release method nearby if appropriate.",
+    steps:[
+      ["Set the scene","Decide who leads first and agree on a stop signal."],
+      ["Start with freedom","Explore guided positions before using restraints. Notice what feels exciting versus uncomfortable."],
+      ["Play with control","The leader can decide when touch begins, stops, or changes. Keep the focus on anticipation."],
+      ["Reconnect","Remove restraints slowly, check circulation and comfort, and spend a few minutes reconnecting."]
+    ]
+  },
+  {
+    id:"crave", icon:"♡", name:"Crave", tagline:"Anticipation • communication • slowing down",
+    roles:["Leader","Receiver"],
+    suggestions:[
+      "Use three words tonight: Stay, Back, and Go.",
+      "Spend the first ten minutes on kissing and affectionate touch only.",
+      "Every time things start to escalate, pause for eye contact before continuing.",
+      "Let the receiver choose when the pace changes instead of the leader guessing.",
+      "Make the goal 'notice more' rather than 'get somewhere.'",
+      "If you move into sex or oral sex, keep using Stay, Back, and Go instead of assuming the pace."
+    ],
+    safety:"The point is slowing down and communicating, not endurance or pressure. Either partner can change direction at any time.",
+    steps:[
+      ["Set the scene","One person receives while the other leads. The receiver's job is simply to communicate."],
+      ["Slow everything down","Begin with kissing and touching without rushing toward sex or orgasm."],
+      ["Use simple cues","Stay = keep this pace. Back = slow down. Go = comfortable continuing."],
+      ["Reconnect","Talk about whether slowing down changed what you noticed about each other."]
+    ]
+  },
+  {
+    id:"edge", icon:"◐", name:"Edge", tagline:"Control • anticipation • patience",
+    roles:["Leader","Receiver"],
+    suggestions:[
+      "Use a 1–10 intensity scale and check in periodically.",
+      "At an 8 or 9, pause and let intensity fall before continuing.",
+      "Let the receiver call the pauses for one round and the leader call them for the next.",
+      "Try only two or three build-and-pause cycles; more is not automatically better.",
+      "After a pause, restart more slowly than you think you need to.",
+      "This can be used during hand stimulation, oral sex, or penetrative sex—whatever you both actually want that night."
+    ],
+    safety:"Keep this playful rather than performance-focused. Stop if either partner feels uncomfortable, numb, sore, or pressured.",
+    steps:[
+      ["Create a scale","1–3 relaxed, 4–6 building, 7–8 intense, 9 very close, 10 point of no return."],
+      ["Build and pause","When the receiver reaches roughly 8 or 9, slow down or pause completely."],
+      ["Repeat thoughtfully","Continue only while it stays fun and comfortable."],
+      ["Reconnect","Relax together afterward rather than immediately moving on."]
+    ]
+  },
+  {
+    id:"taste", icon:"💋", name:"Taste", tagline:"Kissing • curiosity • rediscovery",
+    roles:["Leads first","Follows first"],
+    suggestions:[
+      "Pretend it's your first kiss after a long time apart.",
+      "One partner leads the kissing for three minutes, then switch.",
+      "Ask: What kind of kiss do you wish we did more often?",
+      "Start with very short kisses and make each one slightly longer.",
+      "Use a favorite drink, mint, or piece of fruit as a playful flavor change."
+    ],
+    safety:"Keep it comfortable and playful. Skip any food or flavoring that could trigger an allergy or sensitivity.",
+    steps:[
+      ["Set the scene","No phones or TV. Sit or lie somewhere comfortable."],
+      ["Start over","Begin with short kisses, then longer ones. Explore slower versus more playful kissing."],
+      ["Take turns","One person decides the pace for a few minutes, then switch."],
+      ["Reconnect","Show each other the kind of kiss you want more often."]
+    ]
+  },
+  {
+    id:"adore", icon:"✦", name:"Adore", tagline:"Attention • appreciation • receiving",
+    roles:["Gives attention","Receives attention"],
+    suggestions:[
+      "Start by naming three things you genuinely appreciate about your partner.",
+      "Give the receiver ten minutes where they do not need to reciprocate.",
+      "Ask only one question: More of this?",
+      "Let the receiver answer with yes, no, softer, firmer, slower, or somewhere else.",
+      "Switch roles only after the first person says they feel complete.",
+      "If the receiver wants oral sex, genital touch, or sex, they can say it directly instead of waiting for the giver to guess."
+    ],
+    safety:"Receiving attention should never create an obligation to reciprocate immediately. Either person can stop or redirect at any time.",
+    steps:[
+      ["Set the scene","Choose who receives first. The receiver isn't responsible for entertaining or reciprocating."],
+      ["Begin with appreciation","Name three genuine things you appreciate, then move into affectionate touch."],
+      ["Learn instead of guessing","Ask 'More of this?' and let the receiver guide the experience."],
+      ["Reconnect","Share one thing you learned about what makes the other person feel cared for."]
+    ]
+  },
+
+  {
+    id:"blindfold", icon:"◉", name:"Blindfold", tagline:"Anticipation • trust • heightened sensation",
+    roles:["Guide","Receiver"],
+    suggestions:[
+      "Start with the receiver closing their eyes before adding a blindfold.",
+      "Use three types of sensation: warm hands, cool touch, and soft texture.",
+      "Have the receiver guess where the next touch will land.",
+      "Alternate touch with several seconds of complete stillness.",
+      "Switch roles halfway through if you both want to experience the contrast."
+    ],
+    safety:"Use a comfortable blindfold that does not restrict breathing or create pressure on the eyes. The receiver should be able to remove it easily at any time.",
+    steps:[
+      ["Set the scene","Choose who guides first. Agree on Green, Yellow, and Red, then make sure the receiver is comfortably positioned."],
+      ["Remove one sense","Begin with eyes closed. Once comfortable, add the blindfold and give the receiver a moment to adjust."],
+      ["Explore sensation","Use hands, temperature, texture, pressure, kissing, sexual touch, and pauses. Keep the receiver oriented with calm verbal check-ins when needed."],
+      ["Reconnect","Remove the blindfold slowly and give the receiver a moment before changing activities."]
+    ]
+  },
+  {
+    id:"lead", icon:"◆", name:"Take the Lead", tagline:"Confidence • surrender • being cared for",
+    roles:["Leads the experience","Follows the experience"],
+    suggestions:[
+      "The leader chooses the music, lighting, and first activity before the other person enters the room.",
+      "For 20 minutes, the follower only needs to say yes, no, slower, more, or stop—even if the experience becomes sexual.",
+      "Plan three phases: settle in, build the mood, then reconnect.",
+      "The leader should choose one thing they know their partner already enjoys and one gentle surprise.",
+      "Switch roles on another night rather than trying to make the evening perfectly equal."
+    ],
+    safety:"Leading does not override consent. The follower can redirect or stop anything at any time, and the leader should treat feedback as part of the experience.",
+    steps:[
+      ["Choose the leader","One person takes responsibility for the flow of the evening. The other does not need to plan or perform."],
+      ["Set expectations","Agree on simple feedback words such as yes, no, slower, more, and stop."],
+      ["Lead with attention","The leader controls pacing, transitions, and atmosphere—including whether things move from kissing into sexual touch or sex—while watching the follower's responses closely."],
+      ["Reconnect","At the end, share one thing the leader chose well and one thing you'd enjoy next time."]
+    ]
+  },
+  {
+    id:"requests", icon:"3", name:"Three Requests", tagline:"Desire • honesty • choosing together",
+    roles:["Reveals first","Responds first"],
+    suggestions:[
+      "Each person silently thinks of three requests: one easy, one playful, and one slightly adventurous. Sexual requests are completely fair game.",
+      "Reveal only one request at a time instead of showing the whole list.",
+      "For each request, answer yes, maybe with a change, or not tonight.",
+      "Pick one request from each person to make part of tonight.",
+      "Save any mutually interesting 'not tonight' idea for another date."
+    ],
+    safety:"A request is an invitation, not an obligation. 'Not tonight' should be accepted without pressure, persuasion, or scorekeeping.",
+    steps:[
+      ["Think privately","Each person chooses three things they would genuinely enjoy tonight. They can be romantic or sexual: more kissing, a massage, oral sex, a specific kind of touch, sex, or something else you want to ask for."],
+      ["Reveal one","The first person shares a single request. The other responds yes, maybe with a change, or not tonight."],
+      ["Take turns","Alternate until you've heard enough to shape the evening."],
+      ["Choose together","Pick one or more mutually wanted requests and let the rest go without disappointment."]
+    ]
+  },
+  {
+    id:"bodymap", icon:"◎", name:"Body Map", tagline:"Curiosity • feedback • learning each other",
+    roles:["Explorer","Receiver"],
+    suggestions:[
+      "Use four responses during touch, including genital touch if you choose it: more, less, skip, favorite.",
+      "Explore one body area at a time instead of moving around quickly.",
+      "Vary only one thing at once: pressure, speed, temperature, or texture.",
+      "When the receiver says favorite, repeat that exact touch before changing anything.",
+      "Switch roles after a short break and compare what you learned."
+    ],
+    safety:"Avoid injured, painful, numb, or medically sensitive areas. Feedback should be treated as useful information, not criticism.",
+    steps:[
+      ["Set the language","Agree on four simple responses: more, less, skip, favorite."],
+      ["Explore slowly","Move through comfortable body areas one at a time, including sexual areas if the receiver wants them included."],
+      ["Change one variable","Experiment with pressure, speed, or texture without changing everything at once."],
+      ["Remember favorites","When something gets a 'favorite,' repeat it and make a mental note for future nights."]
+    ]
+  },
+  {
+    id:"dealer", icon:"🎴", name:"Dealer's Choice", tagline:"Random • playful • custom to tonight",
+    roles:["Dealer","Player"],
+    suggestions:[
+      "Tap for another suggestion to reshuffle tonight's three-part mini sequence."
+    ],
+    safety:"Random does not mean mandatory. Whether a prompt involves kissing, sexual touch, oral sex, or anything else, either person can skip, replace, or stop it without explanation.",
+    steps:[
+      ["Draw one","The app generates a three-part mini sequence from different cards in the deck."],
+      ["Veto freely","Either partner can replace any prompt that does not fit the mood."],
+      ["Follow the sequence","Try the three prompts in order, but move on early if something is not clicking."],
+      ["Keep what works","If one prompt becomes the whole night, that's a successful draw."]
+    ]
+  },
+
+  {
+    id:"oral", icon:"◌", name:"Oral Night", tagline:"Attention • communication • receiving",
+    roles:["Gives first","Receives first"],
+    suggestions:[
+      "Let the receiver ask directly for oral sex rather than making the giver guess.",
+      "Use simple feedback: slower, more, stay there, change, or stop.",
+      "Keep the first round focused on one partner instead of immediately making it reciprocal.",
+      "Switch only if the receiver genuinely wants to.",
+      "Decide together whether orgasm is the goal or whether you simply want to enjoy the attention."
+    ],
+    safety:"Oral sex is optional, not owed. Communicate about STI protection, barriers, comfort, and any sensitivities that matter to you.",
+    steps:[
+      ["Set the scene","Choose who receives first. The receiver can ask directly for oral sex or choose something else instead."],
+      ["Use clear feedback","Keep communication simple and useful: slower, more, stay there, change, or stop."],
+      ["Keep the focus intentional","Let one person receive without feeling responsible for immediately returning the favor."],
+      ["If you want more","Switch roles, add kissing or touching, or move into sex only if both of you want to."],
+      ["Reconnect","Ask what felt best and whether being more direct made the experience easier or better."]
+    ]
+  },
+  {
+    id:"dirtytalk", icon:"✦", name:"Dirty Talk", tagline:"Words • confidence • saying what you want",
+    roles:["Starts talking","Responds first"],
+    suggestions:[
+      "Start with a sexual compliment rather than trying to sound scripted.",
+      "Tell your partner one thing you want tonight instead of asking them to guess.",
+      "Use simple questions like 'Do you want more?' or 'Tell me what you want next.'",
+      "Say what you like while it is happening instead of waiting until afterward.",
+      "If something sounds awkward, laugh and move on."
+    ],
+    safety:"Keep dirty talk consensual. Avoid degrading language, names, or fantasies unless you already know your partner welcomes them.",
+    steps:[
+      ["Start easy","Begin with attraction and compliments. Say what you like about your partner or what you are enjoying."],
+      ["Get more direct","Move into desire: say what you want, what you want more of, or what you hope happens next."],
+      ["Use questions","Let your partner answer direct questions and shape the experience instead of guessing."],
+      ["If you want more","Carry the same direct language into kissing, touching, oral sex, or sex if it feels natural."],
+      ["Reconnect","Tell each other one thing that was exciting to hear and anything that felt unnatural."]
+    ]
+  },
+  {
+    id:"watchme", icon:"◉", name:"Watch Me", tagline:"Confidence • learning • showing instead of guessing",
+    roles:["Shows first","Watches first"],
+    suggestions:[
+      "The person showing demonstrates the kind of touch they personally like.",
+      "The watcher pays attention instead of immediately taking over.",
+      "Afterward, the watcher can try to mirror what they observed.",
+      "Use simple feedback when the watcher takes over: same, slower, firmer, lighter, or stop.",
+      "Switch roles if you both want to."
+    ],
+    safety:"Both people should be comfortable with being watched. Either person can stop, cover up, or change activities at any time.",
+    steps:[
+      ["Set the scene","Choose who shows first. This is about learning, not performing."],
+      ["Watch carefully","Pay attention to rhythm, pressure, pace, and what seems to create a positive response."],
+      ["Try what you learned","If invited, the watcher can take over and try to reproduce what they observed."],
+      ["If you want more","Switch roles, combine this with Body Map, or let it lead into oral sex or sex if you both want that."],
+      ["Reconnect","Each person names one thing they learned and want to remember."]
+    ]
+  },
+  {
+    id:"fantasymenu", icon:"☰", name:"Fantasy Menu", tagline:"Curiosity • overlap • shared ideas",
+    roles:["Chooses first","Chooses second"],
+    suggestions:[
+      "Each person privately chooses two or three themes that sound appealing.",
+      "Only act on ideas you both select.",
+      "Use broad themes instead of trying to write a full script.",
+      "Try categories like romantic, dominant, submissive, oral-focused, spontaneous, playful, or rougher.",
+      "Pick one shared theme and let the details stay flexible."
+    ],
+    safety:"Fantasy is optional and does not imply consent to anything beyond what you explicitly agree to. Shared interest matters more than novelty.",
+    steps:[
+      ["Choose privately","Each person picks a few themes that sound appealing tonight."],
+      ["Find the overlap","Reveal your choices and look for themes you both selected."],
+      ["Define the shared version","Talk briefly about what the fantasy means to each of you and what is off-limits."],
+      ["Play the theme","Use the shared idea to shape the mood, roles, and pacing without needing a complicated script."],
+      ["Reconnect","Decide whether the fantasy is something you would repeat, modify, or leave as a one-time experiment."]
+    ]
+  },
+  {
+    id:"positions", icon:"↻", name:"Position Roulette", tagline:"Variety • choice • no overthinking",
+    roles:["Draws first","Chooses keep/skip"],
+    suggestions:[
+      "Agree on a short list of sexual positions you both already consider acceptable.",
+      "Draw one at random and give yourselves an immediate keep, modify, or skip option.",
+      "Stay with a position only while it feels comfortable.",
+      "If one works especially well, stop the roulette and stay there.",
+      "Keep it playful rather than trying to complete every option."
+    ],
+    safety:"Only include positions that are comfortable and mutually wanted. Stop or change immediately for pain, numbness, strain, or awkward pressure.",
+    steps:[
+      ["Build the pool","Before starting, agree on a small set of positions you are both willing to try."],
+      ["Draw one","Choose randomly from the agreed list. Either person can immediately say keep, modify, or skip."],
+      ["Stay only while it works","If it feels good, stay. If it does not, change without treating that as failure."],
+      ["If you want more","Draw again only when you both genuinely want variety."],
+      ["Reconnect","Remember which options worked and remove anything you would not bother repeating."]
+    ]
+  },
+  {
+    id:"domsub", icon:"◆", name:"Dom / Sub Lite", tagline:"Power • permission • trust",
+    roles:["Dominant","Submissive"],
+    suggestions:[
+      "Keep the first round simple: posture, permission, praise, and who decides what happens next.",
+      "Use Green, Yellow, and Red throughout.",
+      "The dominant can give simple instructions rather than creating an elaborate scene.",
+      "Use praise and reassurance as much as control.",
+      "Switch roles another night if you are curious about the opposite side."
+    ],
+    safety:"Power exchange is consensual roleplay. The submissive always retains the right to pause or stop, and the dominant must respect limits immediately.",
+    steps:[
+      ["Set the scene","Choose roles and discuss limits first. Agree on Green, Yellow, and Red and what Yellow means for you."],
+      ["Start with simple control","The dominant can decide posture, pacing, when kissing starts or stops, or when the submissive may move."],
+      ["Use permission and praise","Keep the dynamic attentive. Control works better when reassurance and praise are part of it."],
+      ["If you want more","If mutually wanted, add blindfolds, restraint, sexual touch, oral sex, or sex while keeping the safeword system active."],
+      ["Reconnect","Drop the roles deliberately when you are done and talk about what part of the power dynamic felt best."]
+    ]
+  },
+  {
+    id:"massage", icon:"👐", name:"The Massage", tagline:"Slow down • let go • transition naturally",
+    roles:["Massage giver","Massage receiver"],
+    suggestions:[
+      "Set up the table, towels, oil, water, and the after-massage space before you begin.",
+      "Keep talking to a minimum except for occasional pressure check-ins.",
+      "Use the turnover as a deliberate reset: cover, step back, let them turn, then resettle.",
+      "End with both hands resting still for several seconds instead of abruptly saying you're done.",
+      "Before the massage begins, choose the couch, bed, or shower as the natural second space afterward."
+    ],
+    safety:"Avoid aggressive pressure over the spine, joints, injuries, or areas that are painful. Adjust the table so the receiver can breathe and rest comfortably.",
+    steps:[
+      ["Prepare the table","Warm the room. Set out a sheet or towel, a covering, massage oil or lotion, water, and pillows. Adjust the table before starting."],
+      ["Massage","Work gradually through shoulders, back, arms, hands, legs, calves, and feet. Use broad slow pressure and ask occasionally, 'Pressure good?'"],
+      ["The turnover","Cover the receiver first. Say, 'Whenever you're ready, I'm going to give you a second to turn over.' Step back, let them reposition, then adjust coverings and pillows before continuing."],
+      ["Finish slowly","Gradually slow your movements. End with both hands resting gently for several seconds, then say, 'Stay there for a minute.' Offer water and let them sit up slowly."],
+      ["The transition","Help them off the table while they stay wrapped in the towel or blanket. Move together to the second space and simply ask, 'What do you want now?' Nothing after the massage is owed or assumed."]
+    ]
+  }
+];
+
+
+const deepGuides = {
+
+  oral:[
+    ["Before you begin","Choose who receives first and make it explicit that oral sex is being offered, not assumed. The receiver can say what they want, ask for a change, or choose something else."],
+    ["Make feedback normal","Simple directions such as slower, more, stay there, or change are useful rather than awkward. The giver does not have to guess."],
+    ["Where it can go","Keep the focus on one person as long as that feels good. Switch roles, add touching, or move into sex only if both of you want to."]
+  ],
+  dirtytalk:[
+    ["Before you begin","Start with attraction rather than trying to sound scripted. Direct compliments and simple statements of desire usually feel more natural than elaborate lines."],
+    ["Say what you want","Move from describing what you like into asking for what you want next. Let your partner answer rather than treating dirty talk as a monologue."],
+    ["Where it can go","Keep talking during kissing, touching, oral sex, or sex if it feels good. If something sounds forced, laugh and move on."]
+  ],
+  watchme:[
+    ["Before you begin","Agree that this is about learning rather than performing. The person showing controls what they are comfortable demonstrating."],
+    ["Observe instead of guessing","The watcher pays attention to rhythm, pressure, pace, and response rather than immediately taking over."],
+    ["Where it can go","If invited, the watcher can mirror what they observed. Switch roles or let the experience become sexual in another way only if it feels natural."]
+  ],
+  fantasymenu:[
+    ["Before you begin","Each person chooses a few broad themes privately. The useful information is where your interests overlap, not who has the more adventurous list."],
+    ["Define the shared version","If you both choose a theme, talk about what it means to each of you and what parts you do or do not want."],
+    ["Where it can go","Use the theme as a mood rather than a script. Stop or change it if the real experience feels different from what sounded appealing in theory."]
+  ],
+  positions:[
+    ["Before you begin","Only put mutually acceptable positions into the roulette pool. The random draw never overrides comfort or preference."],
+    ["Use keep, modify, skip","Every draw gets an immediate decision. If it works, stay. If it needs adjustment, adjust it. If it is awkward, skip it."],
+    ["Where it can go","The best outcome may be finding one position you both want to stay in. Variety is optional; comfort matters more than completing the game."]
+  ],
+  domsub:[
+    ["Before you begin","Decide what the dominant/submissive dynamic means tonight and what it does not mean. Agree on limits and Green / Yellow / Red."],
+    ["Keep the power exchange simple","Use posture, permission, pacing, praise, and clear instructions before adding anything more complicated."],
+    ["Where it can go","If both of you want more, combine the dynamic with blindfolds, restraint, oral sex, or sex. End the roles deliberately afterward and reconnect as yourselves."]
+  ],
+  impact:[
+    ["Before you begin","Talk about what each of you is actually curious about tonight and choose a comfortable intensity ceiling. Start with hands before any paddle so the receiver can distinguish ordinary touch from impact. Agree on Green, Yellow, and Red and treat Yellow as useful feedback, not a failure."],
+    ["Make anticipation the point","Use pauses as much as impact. A few light taps, a long pause, a firmer tap, then a warm hand resting over the area will usually create more sensation than simply hitting harder. Let the receiver choose whether to increase intensity."],
+    ["Where it can go","If you both want the experience to become sexual, combine impact with kissing, touching, a blindfold, or sex rather than treating the paddle as the entire activity. Finish while it is still fun, then slow everything back down and talk about what you would repeat."]
+  ],
+  heat:[
+    ["Before you begin","Warm the room and prepare towels, massage oil, and any temperature-play items before either of you gets comfortable. Use only products meant for body use and test warmth on yourself first."],
+    ["Build the contrast","Start with ordinary massage. Once the receiver is relaxed, alternate warm touch with something cooler and give each sensation time to register. Closing the eyes can make small temperature changes feel much more dramatic."],
+    ["Where it can go","Let the massage become sexual only if you both want that. Kissing, genital touch, oral sex, or sex can follow naturally, but there is no need to force an escalation just because the card is intimate."]
+  ],
+  bound:[
+    ["Before you begin","Decide what 'being restrained' means tonight. It may be actual cuffs or tape, but it can also be as simple as the receiver agreeing to keep their hands in one place. Agree on a stop signal and make quick release easy."],
+    ["Explore control first","The leader can decide when touch starts, when it stops, and when the receiver is allowed to move. That loss of predictability is often the interesting part, so there is no need to create complicated restraint positions."],
+    ["Where it can go","If both of you want more, restraint can be combined with kissing, blindfolding, teasing, oral sex, or sex. Keep communication easy the entire time and remove restraints before either person feels physically uncomfortable."]
+  ],
+  crave:[
+    ["Before you begin","Choose who leads and who receives. Use three simple words: Stay means keep doing exactly this, Back means reduce the intensity or pace, and Go means the receiver wants things to progress."],
+    ["Stretch out the build","Spend much longer than usual on kissing and touch before moving toward sex or orgasm. When arousal rises, pause instead of automatically escalating. Return to eye contact, kissing, or stillness before continuing."],
+    ["Where it can go","If you move into genital touch, oral sex, or sex, keep using Stay, Back, and Go. The point is not to avoid orgasm; it is to make the path there slower and more deliberate."]
+  ],
+  edge:[
+    ["Before you begin","Use a 1–10 arousal scale and agree that this is about communication, not endurance. The receiver should feel completely free to say they are done with the game and want to continue normally."],
+    ["Build and release","Use whatever sexual touch you both want. Around an 8 or 9—very close to orgasm—the leader slows down or stops and lets arousal fall. Restart only after the receiver feels ready."],
+    ["Where it can go","Two or three cycles are plenty. Eventually decide whether you want to continue toward orgasm or stop. Either outcome counts; the card works if you paid closer attention to each other."]
+  ],
+  taste:[
+    ["Before you begin","Make kissing the actual date-night activity rather than something you rush through on the way to sex. Put phones away and give yourselves enough time that it does not feel performative."],
+    ["Rediscover each other","Start with short kisses and gradually vary length, pressure, pace, and who leads. Take turns controlling the rhythm and ask what kind of kiss the other person wishes happened more often."],
+    ["Where it can go","You can keep it as a makeout session or allow it to turn into touching, oral sex, or sex. The interesting part is noticing whether slowing down the kissing changes the rest of the night."]
+  ],
+  adore:[
+    ["Before you begin","Choose one person to receive first. For this part of the night, they do not need to reciprocate or worry about making things equal. The giver's job is to pay attention."],
+    ["Ask instead of guessing","Begin with appreciation and affectionate touch, then use one simple question: 'More of this?' The receiver can answer yes, no, softer, firmer, slower, somewhere else, or make a direct request."],
+    ["Where it can go","The receiver can ask for kissing, massage, genital touch, oral sex, sex, or simply being held. Switch roles only when the first person genuinely feels complete rather than because a timer says so."]
+  ],
+  blindfold:[
+    ["Before you begin","Start with eyes closed before adding the blindfold. Let the receiver get comfortable with reduced visual information and make sure they are positioned somewhere they do not need to move around."],
+    ["Use uncertainty","Change one sensation at a time: warm hands, cool touch, a soft texture, pressure, kissing, or sexual touch. Add pauses so the receiver cannot predict exactly when or where the next sensation will happen."],
+    ["Where it can go","If you both want more, combine the blindfold with massage, impact, restraint, oral sex, or sex. Keep verbal check-ins easy because the receiver has fewer visual cues."]
+  ],
+  lead:[
+    ["Before you begin","One person takes responsibility for the whole flow: music, lighting, where you start, and what comes next. The follower only needs to communicate yes, no, slower, more, or stop."],
+    ["Lead with attention","Confidence should feel like being cared for, not being ignored. The leader watches reactions closely and controls transitions from talking to kissing, from kissing to touch, and—if mutually wanted—from touch into oral sex or sex."],
+    ["Where it can go","Choose one thing you already know your partner likes and one gentle surprise. At the end, the follower tells the leader what choice made them feel most desired or relaxed."]
+  ],
+  requests:[
+    ["Before you begin","Each person privately chooses three requests: one easy, one playful, and one slightly adventurous. They can be romantic or sexual—kissing, massage, oral sex, a specific kind of touch, sex, or something else."],
+    ["Reveal them slowly","Share one request at a time. The response choices are Yes, Maybe with a change, or Not tonight. A no does not become a negotiation; a maybe is an invitation to adjust the idea together."],
+    ["Build tonight from the overlap","Pick one request from each person or any combination you both genuinely want. Anything interesting that does not fit tonight can become a future card instead of something you need to squeeze in."]
+  ],
+  bodymap:[
+    ["Before you begin","Use four responses: More, Less, Skip, and Favorite. Agree that feedback is useful information rather than criticism. The receiver never has to pretend something feels good."],
+    ["Explore one variable at a time","Move slowly through comfortable body areas and change only pressure, speed, temperature, or texture at first. When something gets a Favorite, repeat it instead of immediately moving on."],
+    ["Where it can go","If you both want the exploration to become sexual, keep using the same feedback during genital touch, oral sex, or sex. The entire point is learning what works rather than making your partner guess."]
+  ],
+  dealer:[
+    ["Before you begin","Dealer's Choice is intentionally unpredictable. Read the entire three-part draw before starting so either of you can veto something that does not fit the mood."],
+    ["Let one person steer","The Dealer controls the transitions between prompts while the Player communicates what is working. You are allowed to reshuffle one part without throwing away the whole sequence."],
+    ["Do not finish just to finish","If one prompt becomes the best part of the night, abandon the rest and stay there. The generated sequence is a starting point, not a checklist."]
+  ],
+  massage:[
+    ["Before you begin","Set up the massage table completely before the receiver gets on it: sheet, towel or blanket, oil or lotion, water, pillows, and the room temperature. Also decide where you will move afterward—the bed, couch, or shower—so the ending does not become awkward."],
+    ["Use the table intentionally","Start face-down and work gradually through shoulders, back, arms, hands, legs, calves, and feet. Keep conversation minimal except for pressure checks. For the turnover, cover the receiver, step back, and give them time to reposition themselves before continuing."],
+    ["Make the ending a transition","Slow your hands rather than abruptly announcing that the massage is done. Let the receiver sit up slowly, keep them wrapped in a towel or blanket, and move together to the second space. Once there, ask, 'What do you want now?' The answer may be cuddling, kissing, a shower, oral sex, sex, another massage, or sleep; none is assumed."]
+  ]
+};
+
+function safeGet(key){
+  try { return localStorage.getItem(key); } catch(e) { return null; }
+}
+function safeSet(key,value){
+  try { localStorage.setItem(key,value); } catch(e) {}
+}
+
+const storedA = safeGet("betweenus_nameA");
+const storedB = safeGet("betweenus_nameB");
+let ratings = {};
+try { ratings = JSON.parse(safeGet("betweenus_ratings") || "{}"); } catch(e) { ratings = {}; }
+
+let state = {
+  nameA: (!storedA || storedA==="You" || storedA==="Partner 1") ? "Davin" : storedA,
+  nameB: (!storedB || storedB==="Partner" || storedB==="Partner 2") ? "Lauren" : storedB,
+  chooser: safeGet("betweenus_chooser") || "together",
+  heat: safeGet("betweenus_heat") || "spicy",
+  sceneId: null,
+  swapped: false,
+  suggestionIndex: 0,
+  dealerText: null
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const sceneGrid = $("#sceneGrid");
+const homeView = $("#homeView");
+const detailView = $("#detailView");
+const toast = $("#toast");
+
+
+function dealerSequence(){
+  const pool = scenes
+    .filter(s=>cardHeat[s.id]===state.heat && !["dealer","massage"].includes(s.id))
+    .flatMap(s=>s.suggestions.map(text=>({scene:s.name,text})));
+  const chosen=[];
+  const usedScenes=new Set();
+  while(chosen.length<3 && chosen.length<pool.length){
+    const pick=pool[Math.floor(Math.random()*pool.length)];
+    if(!usedScenes.has(pick.scene)){
+      chosen.push(pick);
+      usedScenes.add(pick.scene);
+    }
+  }
+  return chosen.map((p,i)=>`${i+1}. ${p.scene}: ${p.text}`).join("\n\n");
+}
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast.t);
+  showToast.t = setTimeout(()=>toast.classList.remove("show"), 2200);
+}
+function saveNames(){
+  state.nameA = $("#nameA").value.trim() || "Davin";
+  state.nameB = $("#nameB").value.trim() || "Lauren";
+  safeSet("betweenus_nameA",state.nameA);
+  safeSet("betweenus_nameB",state.nameB);
+}
+
+const cardHeat = {
+  taste:"romantic", adore:"romantic", massage:"romantic",
+  lead:"playful", requests:"playful", dealer:"playful",
+  impact:"spicy", heat:"spicy", bound:"spicy", crave:"spicy", blindfold:"spicy", bodymap:"spicy",
+  edge:"raunchy", oral:"raunchy", dirtytalk:"raunchy", watchme:"raunchy",
+  fantasymenu:"raunchy", positions:"raunchy", domsub:"raunchy"
+};
+const heatCopy = {
+  romantic:"Warm, affectionate, and low-pressure.",
+  playful:"Flirty, curious, and a little more adventurous.",
+  spicy:"More direct and sexual, without being graphic.",
+  raunchy:"The most overtly sexual cards in the deck."
+};
+function heatLabel(level){
+  return {romantic:"Romantic",playful:"Playful",spicy:"Spicy",raunchy:"Raunchy"}[level] || "Spicy";
+}
+function filteredScenes(){ return scenes.filter(s => cardHeat[s.id] === state.heat); }
+function setHeat(level){
+  state.heat=level;
+  safeSet("betweenus_heat",level);
+  $$("#heatLevels button").forEach(b=>b.classList.toggle("active",b.dataset.heat===level));
+  $("#heatHint").textContent=heatCopy[level];
+  renderGrid();
+}
+
+function ratingLabel(value){
+  if(value==="love") return "❤️ Loved";
+  if(value==="like") return "👍 Liked";
+  if(value==="no") return "👎 Not for us";
+  return "";
+}
+function renderGrid(){
+  const visible=filteredScenes();
+  sceneGrid.innerHTML = visible.map(s=>{
+    const saved = ratingLabel(ratings[s.id]);
+    return `
+    <button class="scene" data-id="${s.id}">
+      <span class="icon">${s.icon}</span>
+      <strong>${s.name}</strong>
+      <span>${s.tagline}</span>
+      <span class="heat-badge">${heatLabel(cardHeat[s.id])}</span>
+      ${saved ? `<span class="scene-rating">${saved}</span>` : ""}
+    </button>`;
+  }).join("");
+  $$(".scene").forEach(b=>b.addEventListener("click",()=>openScene(b.dataset.id)));
+}
+function chooserText(){
+  if(state.chooser==="a") return `${state.nameA} chose tonight`;
+  if(state.chooser==="b") return `${state.nameB} chose tonight`;
+  if(state.chooser==="random") return `The app chose tonight`;
+  return `Chosen together`;
+}
+function openScene(id, preserveSuggestion=false){
+  saveNames();
+  state.sceneId=id;
+  state.swapped=false;
+  state.dealerText=null;
+  const scene=scenes.find(s=>s.id===id);
+  if(!preserveSuggestion) state.suggestionIndex=Math.floor(Math.random()*scene.suggestions.length);
+  renderDetail();
+  homeView.classList.remove("active");
+  detailView.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  updateHash();
+}
+function renderDetail(){
+  const s=scenes.find(x=>x.id===state.sceneId);
+  if(!s) return;
+  $("#detailIcon").textContent=s.icon;
+  $("#detailName").textContent=s.name;
+  $("#detailTagline").textContent=s.tagline;
+  $("#chooserLabel").textContent=chooserText();
+  $("#rolePersonA").textContent=state.nameA;
+  $("#rolePersonB").textContent=state.nameB;
+  $("#roleA").textContent=state.swapped?s.roles[1]:s.roles[0];
+  $("#roleB").textContent=state.swapped?s.roles[0]:s.roles[1];
+  if(s.id==="dealer"){
+    if(!state.dealerText) state.dealerText=dealerSequence();
+    $("#suggestionText").textContent=state.dealerText;
+    $("#suggestionText").style.whiteSpace="pre-line";
+  }else{
+    $("#suggestionText").textContent=s.suggestions[state.suggestionIndex % s.suggestions.length];
+    $("#suggestionText").style.whiteSpace="normal";
+  }
+  renderRating();
+  const deep = deepGuides[s.id] || [];
+  $("#stepsBox").innerHTML=`
+    <div class="eyebrow">Guided experience</div>
+    <h2>${s.name}</h2>
+    ${deep.map(([h,p])=>`<div class="step"><h3>${h}</h3><p>${p}</p></div>`).join("")}
+    <div class="eyebrow" style="margin-top:18px">Quick flow</div>
+    ${s.steps.map(([h,p])=>`<div class="step"><h3>${h}</h3><p>${p}</p></div>`).join("")}
+    <div class="safety"><strong>Comfort & safety:</strong> ${s.safety}</div>`;
+}
+function updateHash(){
+  const data={
+    c:state.sceneId,
+    s:state.swapped?1:0,
+    i:state.suggestionIndex,
+    a:state.nameA,
+    b:state.nameB,
+    q:state.chooser,
+    h:state.heat,
+    d:state.sceneId==="dealer" ? state.dealerText : null
+  };
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  history.replaceState(null,"",`#plan=${encoded}`);
+}
+function readHash(){
+  const m=location.hash.match(/^#plan=(.+)$/);
+  if(!m) return false;
+  try{
+    const data=JSON.parse(decodeURIComponent(escape(atob(m[1]))));
+    if(!scenes.some(s=>s.id===data.c)) return false;
+    state.sceneId=data.c;
+    state.swapped=!!data.s;
+    state.suggestionIndex=Number(data.i)||0;
+    state.nameA=data.a||"Davin";
+    state.nameB=data.b||"Lauren";
+    state.chooser=["together","a","b","random"].includes(data.q)?data.q:"together";
+    state.heat=["romantic","playful","spicy","raunchy"].includes(data.h)?data.h:"spicy";
+    state.dealerText=data.d||null;
+    $("#nameA").value=state.nameA; $("#nameB").value=state.nameB;
+    setChooserUI();
+    renderDetail();
+    homeView.classList.remove("active"); detailView.classList.add("active");
+    return true;
+  }catch(e){ return false; }
+}
+
+function setRating(value){
+  if(!state.sceneId) return;
+  ratings[state.sceneId] = value;
+  safeSet("betweenus_ratings", JSON.stringify(ratings));
+  renderRating();
+  renderGrid();
+  const labels={no:"Didn't like",like:"Liked",love:"Loved"};
+  showToast(`${labels[value]} saved`);
+}
+function renderRating(){
+  if(!state.sceneId) return;
+  const current = ratings[state.sceneId] || "";
+  $$(".rating-btn").forEach(b=>b.classList.toggle("active", b.dataset.rating===current));
+  const note=$("#ratingNote");
+  if(!current) note.textContent="No rating yet.";
+  if(current==="no") note.textContent="Not for you two. It'll be marked on the deck so you remember.";
+  if(current==="like") note.textContent="A good one. Worth doing again.";
+  if(current==="love") note.textContent="A favorite. This one is marked as Loved on the deck.";
+}
+
+function shareUrl(){
+  updateHash();
+  return location.href;
+}
+function setChooserUI(){
+  $$("#chooserSegments button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.chooser===state.chooser);
+    if(b.dataset.chooser==="a") b.textContent=state.nameA;
+    if(b.dataset.chooser==="b") b.textContent=state.nameB;
+  });
+}
+function randomScene(){
+  const pool=filteredScenes();
+  const s=pool[Math.floor(Math.random()*pool.length)];
+  openScene(s.id);
+}
+function randomizeRoles(){
+  state.swapped=Math.random()<0.5;
+  renderDetail(); updateHash();
+  showToast(state.swapped ? `${state.nameB} leads this one` : `${state.nameA} leads this one`);
+}
+function nextSuggestion(){
+  const s=scenes.find(x=>x.id===state.sceneId);
+  if(s.id==="dealer"){
+    state.dealerText=dealerSequence();
+    renderDetail(); updateHash();
+    return;
+  }
+  let next=state.suggestionIndex;
+  if(s.suggestions.length>1){
+    while(next===state.suggestionIndex) next=Math.floor(Math.random()*s.suggestions.length);
+  }
+  state.suggestionIndex=next;
+  renderDetail(); updateHash();
+}
+function nextAction(type){
+  const box=$("#nextText");
+  const messages={
+    switch:`Swap roles and repeat only the part you both liked most. You don't need to replay the entire card.`,
+    linger:`Stay with the current mood for another five minutes. No new challenge—just more of what is already working.`,
+    another:`Go back to the deck and let the person who did not choose this card pick the next one.`,
+    close:`End on purpose: water, a quick check-in, and one sentence each about what you liked tonight.`
+  };
+  box.textContent=messages[type];
+  box.style.display="block";
+}
+
+$("#nameA").value=state.nameA;
+$("#nameB").value=state.nameB;
+$$("#heatLevels button").forEach(b=>b.addEventListener("click",()=>setHeat(b.dataset.heat)));
+setHeat(state.heat);
+setChooserUI();
+
+$("#nameA").addEventListener("change",()=>{saveNames();setChooserUI();});
+$("#nameB").addEventListener("change",()=>{saveNames();setChooserUI();});
+$$("#chooserSegments button").forEach(b=>b.addEventListener("click",()=>{
+  saveNames();
+  state.chooser=b.dataset.chooser;
+  safeSet("betweenus_chooser",state.chooser);
+  setChooserUI();
+  if(state.chooser==="random"){
+    const who=Math.random()<.5?state.nameA:state.nameB;
+    showToast(`${who} gets first pick tonight`);
+  }
+}));
+$("#surpriseBtn").addEventListener("click",randomScene);
+$("#backBtn").addEventListener("click",()=>{
+  detailView.classList.remove("active");homeView.classList.add("active");
+  history.replaceState(null,"",location.pathname+location.search);
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+$("#swapBtn").addEventListener("click",()=>{state.swapped=!state.swapped;renderDetail();updateHash();});
+$("#randomRolesBtn").addEventListener("click",randomizeRoles);
+$("#newSuggestionBtn").addEventListener("click",nextSuggestion);
+$$(".nextSuggestion").forEach(b=>b.addEventListener("click",()=>nextAction(b.dataset.next)));
+$$(".rating-btn").forEach(b=>b.addEventListener("click",()=>setRating(b.dataset.rating)));
+
+$("#copyBtn").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(shareUrl());showToast("Plan link copied");}
+  catch(e){showToast("Copy the address from your browser");}
+});
+$("#shareBtn").addEventListener("click",async()=>{
+  const s=scenes.find(x=>x.id===state.sceneId);
+  const text=`I picked ${s.name} for us tonight. Open this to see the roles and suggestion.`;
+  const url=shareUrl();
+  if(navigator.share){
+    try{await navigator.share({title:"Between Us",text,url});}
+    catch(e){}
+  }else{
+    try{await navigator.clipboard.writeText(url);showToast("Plan link copied");}
+    catch(e){showToast("Share this page's URL");}
+  }
+});
+
+readHash();
+</script>
+</body>
+</html>
